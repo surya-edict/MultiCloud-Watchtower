@@ -30,24 +30,34 @@ Finance and DevOps teams are often forced to manually reconcile disparate billin
 ## 2. Core Capabilities
 
 ```mermaid
-mindmap
-  root((FinOps Watchtower))
-    Ingestion
-      AWS Cost Explorer
-      Azure Cost Management
-      GCP Billing API
-      Mock Demo Mode
-    Storage
-      InfluxDB Time-Series
-      Redis TTL Caching
-    Intelligence
-      Anomaly Detection
-      Right-sizing Engine
-      Currency Normalization
-    Governance
-      Global Tax Engine
-      Rule 14 Compliance
-      Slack Notifications
+graph TD
+    Root((FinOps Watchtower))
+    
+    Ingestion[Ingestion Engine]
+    Storage[Storage Layer]
+    Intelligence[Intelligence Hub]
+    Governance[Governance Engine]
+    
+    Root --> Ingestion
+    Root --> Storage
+    Root --> Intelligence
+    Root --> Governance
+    
+    Ingestion --> AWS[AWS Cost Explorer]
+    Ingestion --> Azure[Azure Cost Management]
+    Ingestion --> GCP[GCP Billing API]
+    Ingestion --> Mock[Mock Demo Mode]
+    
+    Storage --> Influx[InfluxDB Time-Series]
+    Storage --> Redis[Redis TTL Caching]
+    
+    Intelligence --> Anomaly[Anomaly Detection]
+    Intelligence --> RightSize[Right-sizing Engine]
+    Intelligence --> Currency[Currency Normalization]
+    
+    Governance --> Tax[Global Tax Engine]
+    Governance --> Compliance[Rule 14 Compliance]
+    Governance --> Slack[Slack Notifications]
 ```
 
 ➤ **Cross-Cloud Ingestion Engine:** Seamlessly authenticates and pulls granular cost metrics using official cloud SDKs (`boto3`, `azure-mgmt-cost`, `google-cloud-billing`).
