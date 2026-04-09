@@ -30,7 +30,7 @@ Finance and DevOps teams are often forced to manually reconcile disparate billin
 ## 2. Core Capabilities
 
 ```mermaid
-%%{init: { 'theme': 'dark' } }%%
+%%{init: { 'theme': 'base', 'themeVariables': { 'mindmapNodeBackgroundColor': '#e1f5fe', 'mindmapNodeTextColor': '#01579b', 'lineColor': '#0288d1' } } }%%
 mindmap
   root((FinOps Watchtower))
     Ingestion
