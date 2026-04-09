@@ -1,0 +1,58 @@
+name: Daily Cost Sync
+
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+
+jobs:
+  cost-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create GCP credentials file
+        if: env.GCP_KEY != ''
+        env:
+          GCP_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        run: echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > gcp.json
+
+      - name: Run one sync cycle
+        env:
+          APP_ENV: production
+          LOG_LEVEL: INFO
+          # Default to 'mock' if secrets are not provided, ensuring CI stays green for demo purposes
+          CLOUD_MODE: ${{ secrets.CLOUD_MODE || 'mock' }}
+          ALLOW_MOCK_FALLBACK: ${{ secrets.ALLOW_MOCK_FALLBACK || 'true' }}
+          INFLUXDB_URL: ${{ secrets.INFLUXDB_URL || 'http://localhost:8086' }}
+          INFLUXDB_TOKEN: ${{ secrets.INFLUXDB_TOKEN || 'dummy-token' }}
+          INFLUXDB_ORG: ${{ secrets.INFLUXDB_ORG || 'dummy-org' }}
+          INFLUXDB_BUCKET: ${{ secrets.INFLUXDB_BUCKET || 'multicloud_cost' }}
+          REDIS_URL: ${{ secrets.REDIS_URL || 'redis://localhost:6379' }}
+          # Only enable live providers if their specific secrets are set
+          AWS_ENABLED: ${{ secrets.AWS_ACCESS_KEY_ID != '' && 'true' || 'false' }}
+          GCP_ENABLED: ${{ secrets.GCP_PROJECT_ID != '' && 'true' || 'false' }}
+          AZURE_ENABLED: ${{ secrets.AZURE_SUBSCRIPTION_ID != '' && 'true' || 'false' }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+          AWS_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_BILLING_ACCOUNT_ID: ${{ secrets.GCP_BILLING_ACCOUNT_ID }}
+          GCP_BIGQUERY_TABLE: ${{ secrets.GCP_BIGQUERY_TABLE }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/gcp.json
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        run: python -m src.main --run-once

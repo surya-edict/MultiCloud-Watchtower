@@ -1,0 +1,51 @@
+# Environment files (keep example)
+.env
+.env.*
+!.env.example
+
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python caches/bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ruff / lint caches
+.ruff_cache/
+
+# Test / coverage caches
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Logs
+logs/
+*.log
+
+# Credentials / secrets (keep placeholder)
+credentials/*
+!credentials/.gitkeep
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+
+# Local artifacts / exports
+*.pdf
+*.html
+
+# OS / editor junk
+.vscode/
+.idea/
+.trae/
+.DS_Store
+Thumbs.db

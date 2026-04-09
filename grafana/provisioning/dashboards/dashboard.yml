@@ -1,0 +1,10 @@
+apiVersion: 1
+
+providers:
+  - name: Multi-cloud Dashboard
+    folder: Cost Optimization
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards

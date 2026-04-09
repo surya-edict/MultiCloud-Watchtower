@@ -1,0 +1,11 @@
+boto3==1.39.14
+google-cloud-billing==1.16.0
+google-cloud-bigquery==3.34.0
+azure-identity==1.23.0
+azure-mgmt-costmanagement==4.0.1
+influxdb-client==1.49.0
+redis==6.2.0
+requests==2.32.4
+schedule==1.2.2
+python-dotenv==1.0.1
+fpdf2==2.8.2
