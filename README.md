@@ -14,11 +14,11 @@ A robust, enterprise-grade Financial Operations (FinOps) platform engineered to 
 
 ## 1. Project Overview
 
-In modern microservice architectures, organizations frequently adopt multi-cloud strategies to avoid vendor lock-in and leverage specific cloud capabilities. However, this creates a massive operational blind spot: **cost fragmentation**. 
+In modern microservice architectures, organizations frequently adopt multi-cloud strategies to avoid vendor lock-in and leverage specific cloud capabilities. However, this creates a massive operational blind spot: **cost fragmentation**.
 
 Finance and DevOps teams are often forced to manually reconcile disparate billing reports, leading to delayed anomaly detection and wasted capital on orphaned resources.
 
-**The FinOps Command Center** bridges this gap. It acts as a centralized telemetry hub that autonomously ingests cross-provider billing data, normalizes it into a high-performance time-series database, and visualizes the financial health of your infrastructure in real-time.
+**The FinOps Command Center** bridges this gap. It acts as a centralized telemetry hub that autonomously ingests cross-provider billing data, normalizes it into a high-performance time-series database, and visualizes the financial health of your infrastructure in real time.
 
 ### Business Value
 ❖ **Instant Visibility:** Eliminates the "end-of-month billing shock" by providing daily burn rate tracking.
@@ -51,7 +51,7 @@ mindmap
       Slack Notifications
 ```
 
-➤ **Cross-Cloud Ingestion Engine:** Seamlessly authenticates and pulls granular cost metrics using official cloud SDKs (`boto3`, `azure-mgmt-cost`, `google-cloud-billing`).
+➤ **Cross-Cloud Ingestion Engine:** Seamlessly authenticates and pulls granular cost metrics using official cloud SDKs (`boto3`, `azure-mgmt-costmanagement`, `google-cloud-billing`).
 
 ➤ **Time-Series Optimization:** Utilizes InfluxDB to handle high-cardinality financial data, allowing sub-second querying of historical cost trends.
 
@@ -148,9 +148,9 @@ Ensure your host machine or deployment server meets the following requirements:
   ▫ Python 3.10+ (for local development/testing)
 
 ▸ **Cloud Provider Credentials:**
-  ▫ **AWS:** IAM User Access Key & Secret (Requires `ce:GetCostAndUsage` permissions)
-  ▫ **Azure:** Service Principal (Client ID, Tenant ID, Secret) with `Cost Management Reader` role.
-  ▫ **GCP:** Service Account JSON Key with `Billing Account Administrator` permissions.
+  ▫ **AWS:** IAM user access key and secret (requires `ce:GetCostAndUsage` permission).
+  ▫ **Azure:** Service principal (client ID, tenant ID, and secret) with the `Cost Management Reader` role.
+  ▫ **GCP:** Service account JSON key with `Billing Account Administrator` permissions.
 
 ▸ **Notifications:**
   ▫ A valid Slack Incoming Webhook URL.
@@ -220,7 +220,7 @@ With the pipeline executed and data populated, access the visualization layer:
 ⮑ **URL:** `http://localhost:3000`
 ⮑ **Default Credentials:** `admin` / `admin`
 
-Navigate to **Dashboards > SYS-OP: FINOPS COMMAND**. The dashboard is pre-provisioned via Grafana Infrastructure-as-Code (IaC) and will immediately reflect your cloud spend.
+Navigate to **Dashboards > Multi-Cloud Cost Dashboard**. The dashboard is pre-provisioned via Grafana Infrastructure-as-Code (IaC) and will immediately reflect your cloud spend.
 
 ---
 
@@ -364,7 +364,7 @@ This project is built with modularity in mind. The `collectors` directory uses a
 
 ## 11. License & Legal
 
-Distributed under the MIT License. See `LICENSE` for more information. 
+Distributed under the MIT License. See `LICENSE` for more information.
 
 This software is provided "as is", without warranty of any kind. The authors are not responsible for any cloud billing charges incurred while running this software.
 
