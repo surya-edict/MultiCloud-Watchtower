@@ -7,38 +7,38 @@
 - GCP Billing export via BigQuery
 - Azure Cost Management API
 
-### Layer 2 — Python Scrapers
-- [aws.py](file:///d:/INTERN/DEVOPS/src/collectors/aws.py) AWS cost fetch karta hai
-- [gcp.py](file:///d:/INTERN/DEVOPS/src/collectors/gcp.py) GCP billing export query karta hai
-- [azure.py](file:///d:/INTERN/DEVOPS/src/collectors/azure.py) Azure spend pull karta hai
-- [mock.py](file:///d:/INTERN/DEVOPS/src/collectors/mock.py) recruiter demo ke liye fallback data generate karta hai
+### Layer 2 — Python Collectors
+- [aws.py](../src/collectors/aws.py) fetches AWS cost and usage data
+- [gcp.py](../src/collectors/gcp.py) queries the GCP billing export
+- [azure.py](../src/collectors/azure.py) pulls Azure spend from Cost Management
+- [mock.py](../src/collectors/mock.py) generates fallback data for local demos
 
 ### Layer 3 — Storage and Processing
-- [influx.py](file:///d:/INTERN/DEVOPS/src/storage/influx.py) normalized cost aur recommendation time-series data store karta hai
-- [redis_cache.py](file:///d:/INTERN/DEVOPS/src/storage/redis_cache.py) duplicate alert suppression karta hai
-- [rules.py](file:///d:/INTERN/DEVOPS/src/alerts/rules.py) spike detection karta hai
-- [engine.py](file:///d:/INTERN/DEVOPS/src/recommendations/engine.py) rightsizing suggestions nikalta hai
+- [influx.py](../src/storage/influx.py) stores normalized cost and recommendation time-series data
+- [redis_cache.py](../src/storage/redis_cache.py) suppresses duplicate alerts
+- [rules.py](../src/alerts/rules.py) detects spending spikes
+- [engine.py](../src/recommendations/engine.py) produces rightsizing suggestions
 
 ### Layer 4 — Visualization and Delivery
-- Grafana dashboards InfluxDB bucket se data read karte hain
-- Slack webhook alert events consume karta hai
-- GitHub Actions daily sync trigger karta hai
+- Grafana dashboards read data from the InfluxDB bucket
+- A Slack webhook consumes alert events
+- GitHub Actions triggers the daily cost sync
 
 ## Data Flow
-1. Scheduler ya manual CLI run [main.py](file:///d:/INTERN/DEVOPS/src/main.py) se start hota hai.
-2. [pipeline.py](file:///d:/INTERN/DEVOPS/src/service/pipeline.py) selected cloud collectors execute karta hai.
-3. Normalized `CostRecord` objects InfluxDB me write hote hain.
-4. Same records par alert rules aur recommendation engine run hota hai.
-5. Recommendations InfluxDB me persist hoti hain aur alert events Slack par jaate hain.
-6. Grafana ready-made dashboard bucket ko query karke charts render karta hai.
+1. The scheduler or a manual CLI run starts from [main.py](../src/main.py).
+2. [pipeline.py](../src/service/pipeline.py) executes the selected cloud collectors.
+3. Normalized `CostRecord` objects are written to InfluxDB.
+4. Alert rules and the recommendation engine run against the same records.
+5. Recommendations are persisted in InfluxDB, and alert events are sent to Slack.
+6. Grafana queries the bucket and renders the pre-provisioned dashboard.
 
 ## Design Decisions
-- InfluxDB choose kiya gaya kyunki cost trend naturally time-series hai.
-- Redis dedupe state ke liye lightweight aur fast hai.
-- Mock fallback recruiter demo aur local validation ko easy banata hai.
-- Shared normalized schema future me additional clouds ya forecast modules add karna easy banati hai.
+- InfluxDB was chosen because cost trends are naturally time-series data.
+- Redis is a lightweight, fast store for alert deduplication state.
+- The mock fallback makes demos and local validation easy.
+- A shared normalized schema makes it straightforward to add more clouds or forecast modules later.
 
 ## Operational Notes
-- Local run ke liye Docker Compose recommended hai.
-- Hosted scheduled sync ke liye GitHub Actions workflow available hai.
-- Live mode me secrets `.env` ya GitHub Secrets me rahenge, codebase me nahi.
+- Docker Compose is recommended for local runs.
+- A GitHub Actions workflow is available for hosted scheduled syncs.
+- In live mode, secrets belong in `.env` or GitHub Secrets, not in the codebase.
