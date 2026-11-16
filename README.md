@@ -226,14 +226,26 @@ Navigate to **Dashboards > SYS-OP: FINOPS COMMAND**. The dashboard is pre-provis
 
 ## 7. CI/CD & Automated Testing
 
-The repository includes a GitHub Actions workflow (`cost-sync.yml`) that automates data synchronization and ensures platform stability.
+The repository includes two GitHub Actions workflows:
+
+- `ci.yml` runs the unit test suite on every push and pull request to `main`.
+- `cost-sync.yml` automates the scheduled data synchronization job.
+
+Run the tests locally after installing dependencies:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python -m unittest discover -s tests -v
+```
 
 ```mermaid
 graph LR
     CODE[Push/PR to Main] --> GHA[GitHub Actions]
     subgraph "Validation Pipeline"
         LINT[Pre-commit Hooks]
-        TEST[Pytest Suite]
+        TEST[Unit Test Suite]
         MOCK[Mock Sync Demo]
     end
     GHA --> LINT
