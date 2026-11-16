@@ -176,8 +176,8 @@ nano .env
 ```ini
 # Core Platform Config
 CLOUD_MODE=mock  # Set to 'live' for real cloud APIs
-INFLUX_URL=http://localhost:8086
-REDIS_HOST=localhost
+INFLUXDB_URL=http://localhost:8086
+REDIS_URL=redis://localhost:6379/0
 
 # Global Tax & Compliance Engine
 GLOBAL_TAX_RATE_PCT=18.0
