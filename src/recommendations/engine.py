@@ -58,8 +58,8 @@ def build_recommendations(
                 severity="medium" if record.utilization_pct > 10 else "high",
                 title=f"Rightsize {record.service} in {record.cloud}",
                 description=(
-                    f"{record.service} utilization {record.utilization_pct:.1f}% hai aur cost ${record.amount:.2f} hai. "
-                    "Smaller SKU ya downgrade evaluate karo."
+                    f"{record.service} is running at {record.utilization_pct:.1f}% utilization with a cost of ${record.amount:.2f}. "
+                    "Evaluate a smaller SKU or a downgrade."
                 ),
                 estimated_monthly_savings=round(record.amount * 0.25, 2),
                 created_at=datetime.now(timezone.utc),
