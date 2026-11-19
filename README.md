@@ -5,7 +5,7 @@
 ![InfluxDB](https://img.shields.io/badge/InfluxDB-2.0-purple?style=for-the-badge&logo=influxdb)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-![Build Status](https://img.shields.io/github/actions/workflow/status/surya-edict/MultiCloud-Watchtower/cost-sync.yml?style=for-the-badge&logo=github-actions)
+![Build Status](https://img.shields.io/github/actions/workflow/status/surya-edict/MultiCloud-Watchtower/ci.yml?style=for-the-badge&logo=github-actions)
 ![Repo Size](https://img.shields.io/github/repo-size/surya-edict/MultiCloud-Watchtower?style=for-the-badge&color=blueviolet)
 
 A robust, enterprise-grade Financial Operations (FinOps) platform engineered to centralize, analyze, and optimize cloud infrastructure costs across Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP).
@@ -207,9 +207,9 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Run the data collection pipeline
-python src/main.py --run-once
+python -m src.main --run-once
 ```
-*Note: In a production environment, `src/main.py` should be configured as a systemd service or deployed as a Kubernetes CronJob.*
+*Note: In a production environment, `python -m src.main` should be configured as a systemd service or deployed as a Kubernetes CronJob.*
 
 ---
 
@@ -276,31 +276,23 @@ Manage the infrastructure containers using Docker Compose:
 | **Check Container Status** | `docker-compose ps` |
 
 ### 8.2. Pipeline Execution
-The Python data pipeline can be executed in different modes. Ensure your `PYTHONPATH` is set correctly:
+From the repository root, run the pipeline as a module (the same invocation used in Docker and CI):
 
-**Linux / macOS:**
 ```bash
-export PYTHONPATH=$PYTHONPATH:.
-python src/main.py --run-once
-```
-
-**Windows (PowerShell):**
-```powershell
-$env:PYTHONPATH="."
-python src/main.py --run-once
+python -m src.main --run-once
 ```
 
 ### 8.3. Demo / Mock Mode
 To showcase the dashboard without live cloud credentials:
 1. Open `.env` and set `CLOUD_MODE=mock`.
-2. Run `python src/main.py --run-once`.
+2. Run `python -m src.main --run-once`.
 3. The dashboard will populate with synthetic EUR, INR, and USD data reflecting current tax rules.
 
 ### 8.4. Troubleshooting
 If data is not appearing on the dashboard:
 - **Check Containers:** Run `docker-compose ps` to ensure all 4 services are `Up`.
 - **Verify InfluxDB Connectivity:** Check logs with `docker-compose logs influxdb`.
-- **Manual Data Push:** Force a sync with `python src/main.py --run-once` and check for errors in the terminal.
+- **Manual Data Push:** Force a sync with `python -m src.main --run-once` and check for errors in the terminal.
 
 ---
 
