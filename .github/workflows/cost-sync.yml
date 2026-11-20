@@ -21,10 +21,12 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Create GCP credentials file
-        if: env.GCP_KEY != ''
         env:
           GCP_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-        run: echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > gcp.json
+        run: |
+          if [ -n "$GCP_KEY" ]; then
+            printf '%s' "$GCP_KEY" > gcp.json
+          fi
 
       - name: Run one sync cycle
         env:
