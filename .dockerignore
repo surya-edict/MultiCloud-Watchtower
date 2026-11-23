@@ -1,0 +1,41 @@
+# Version control and CI
+.git
+.github
+.gitignore
+.pre-commit-config.yaml
+
+# Local environment files and secrets (credentials are mounted at runtime)
+.env
+.env.*
+!.env.example
+credentials/
+
+# Python virtual environments and caches
+venv/
+.venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Not needed inside the app image
+tests/
+docs/
+grafana/
+logs/
+*.log
+docker-compose.yml
+Dockerfile
+
+# OS and editor files
+.vscode/
+.idea/
+.trae/
+.DS_Store
+Thumbs.db
